@@ -18,5 +18,5 @@ Ready to jump in?
 1. [Getting Started](getting-started.md)
 2. [The Storj Object](storj-object.md)
 3. [Upload and Download](upload-download.md)
-4. [Storj in a Browser](browser.md)
-5. 
+4. [Working in a Browser](browser.md)
+5.
