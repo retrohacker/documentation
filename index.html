@@ -1,0 +1,20 @@
+<html>
+  <head></head>
+  <body>
+    <script src="./storj.es6.js"></script>
+    <script type="text/javascript">
+      var s = new Storj()
+      console.log('1')
+      s.on('error', function (err) {
+        console.log(err);
+      })
+      console.log('2')
+      var f = s.getFile('d2372a1f94b0d26d058b2456', '1a3acc12816f09498f52b78f')
+      f.on('ready', function () {
+        console.log('3')
+        f.renderTo("#renderHere")
+      })
+    </script>
+    <div id="renderHere"></div>
+  </body>
+</html>
