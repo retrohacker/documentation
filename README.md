@@ -15,8 +15,8 @@ challenge.
 
 Ready to jump in?
 
-1. [Getting Started](getting-started.md)
-2. [The Storj Object](storj-object.md)
-3. [Upload and Download](upload-download.md)
-4. [Working in a Browser](browser.md)
+1. [Getting Started](01-getting-started.md)
+2. [The Storj Object](02-storj-object.md)
+3. [Upload and Download](03-upload-download.md)
+4. [Working in a Browser](04-browser.md)
 5.
