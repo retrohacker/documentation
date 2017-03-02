@@ -5,7 +5,7 @@ Let's start by instantiating a `Storj` object, and authenticating with our
 private key. We should also set up a variable for the bucket ID, just for
 convenience.
 
-```
+```javascript
 var storj = new Storj({key: privkey})
 bucketID = 'your_bucket_id'
 ```
@@ -17,7 +17,7 @@ can use those too.
 
 Let's grab a file and upload it. In Node we can get a file from the filesystem:
 
-```
+```javascript
 // Node:
 var fs = require('fs')
 var data = fs.readFileSync('/path/to/file/cat.jpg',)
@@ -25,7 +25,7 @@ var data = fs.readFileSync('/path/to/file/cat.jpg',)
 
 In a browser we can get files from a file input:
 
-```
+```html
 // Browsers:
 <input type="file" id="input">
 
@@ -37,7 +37,7 @@ var data = document.getElementById('input').files[0]
 Once we have the file, we can upload it to our bucket. We pass in the bucket
 ID, a name for the file, the data, and a callback:
 
-```
+```javascript
 // Both:
 var file = storj.createFile(bucketID, 'cat.jpg', data, function () {
   console.log('Upload complete')
@@ -51,7 +51,7 @@ This object has a few nice properties and methods to help us learn about it
 and work with it. Let's log a few file properties, to get a feel for what we're
 doing.
 
-```
+```javascript
 console.log("name:", file.name)
 console.log("type:", file.mimetype)
 console.log("size in bytes:", file.length)
@@ -61,7 +61,7 @@ console.log("uploaded/downloaded bytes:", file.progress * file.bytes)
 
 The `File` object also allows us to set event listeners.
 
-```
+```javascript
 file.on('ready', function () {
   console.log('The file object is now ready to upload/download data.')
 })
@@ -83,7 +83,7 @@ file.on('error', function (error) {
 
 
 ### Code Review
-```
+```javascript
 // Instantiate a new Storj object with your private key
 var storj = new Storj({key: privkey})
 

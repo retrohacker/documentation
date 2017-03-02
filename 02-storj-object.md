@@ -4,17 +4,17 @@ simple callback pattern.
 
 Setting up a `Storj` object is easy:
 
-```
+```javascript
 // Node:
 var Storj = require('storj')
 ```
 
-```
+```html
 // Browsers:
 <script src="storj.es6.js"></script>
 ```
 
-```
+```javascript
 // Both
 var storj = new Storj()
 ```
@@ -29,7 +29,7 @@ password (the default), or key-based authentication. For now, let's set up a
 `Storj` object with basic auth. We do this by passing in an `opts` object that
 contains the basic auth information:
 
-```
+```javascript
 var opts = {
   basicAuth: {
     user: "user@email.com",
@@ -45,7 +45,7 @@ Because key-based auth is more secure, we recommend using it whenever possible.
 First we need to generate a keypair:
 
 
-```
+```javascript
 var keypair = storj.generateKeyPair()
 var privkey = keypair.getPrivateKey()
 var pubkey = keypair.getPublicKey()
@@ -54,7 +54,7 @@ var pubkey = keypair.getPublicKey()
 Once the keypair has been made, we register the public key with Storj using the
 `registerKey` function.
 
-```
+```javascript
 storj.registerKey(pubkey, function (error) {
   console.log(error)
 })
@@ -63,7 +63,7 @@ storj.registerKey(pubkey, function (error) {
 After the keypair has been registered, it can be used to authenticate instead
 of a username and password.
 
-```
+```javascript
 var opts = {
   key: privkey
 }
@@ -83,9 +83,11 @@ on a key-by-key basis.
 Once you're authenticated, you can start using Storj. The first step is to make
 a bucket.
 
-```
+```javascript
 storj.createBucket("My New Bucket", function (error, meta){
-  if(error) {console.log(error)}
+  if (error) {
+    console.log(error)
+  }
   console.log("id:", meta.id)
   console.log("name:", meta.name)
 })
@@ -101,7 +103,7 @@ are a few self-explanatory bucket operations: `deleteBucket`, `updateBucket`,
 
 ### Code Review
 
-```
+```javascript
 // In Node:
 var Storj = require('storj')
 
@@ -140,7 +142,9 @@ var storj = new Storj(opts)
 
 // Create a bucket
 storj.createBucket("My New Bucket", function (error, meta){
-  if(error) {console.log(error)}
+  if (error) {
+    console.log(error)
+  }
   console.log("id:", meta.id)
   console.log("name:", meta.name)
 })
