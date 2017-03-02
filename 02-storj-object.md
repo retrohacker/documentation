@@ -1,26 +1,32 @@
-The Storj library exposes all of its tools via the Storj object. It helps you
-upload, download, and interact with your account.
+The Storj library exposes all of its tools via the `Storj` object. It helps you
+upload, download, and interact with your account. Most Storj methods follow a
+simple callback pattern.
 
-Setting up a Storj object is easy:
+Setting up a `Storj` object is easy:
 
 ```
-// In Node:
+// Node:
 var Storj = require('storj')
+```
 
-// In browsers:
+```
+// Browsers:
 <script src="storj.es6.js"></script>
+```
 
+```
+// Both
 var storj = new Storj()
 ```
 
-Once you have the storj object, you can use it to do all sorts of things.
+Once you have the `Storj` object, you can use it to do all sorts of things.
 However, most of them require authentication. So let's work on that next.
 
 ### 1. Authentication Station
 
 Storj allows two kinds of authentication: basic auth with a username and
 password (the default), or key-based authentication. For now, let's set up a
-storj object with basic auth. We do this by passing in an `opts` object that
+`Storj` object with basic auth. We do this by passing in an `opts` object that
 contains the basic auth information:
 
 ```
@@ -133,4 +139,9 @@ var opts = {
 var storj = new Storj(opts)
 
 // Create a bucket
+storj.createBucket("My New Bucket", function (error, meta){
+  if(error) {console.log(error)}
+  console.log("id:", meta.id)
+  console.log("name:", meta.name)
+})
 ```
