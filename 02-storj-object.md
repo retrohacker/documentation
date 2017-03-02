@@ -80,6 +80,7 @@ features to track actions by key, and provide tools for assigning permissions
 on a key-by-key basis.
 
 ### 2. Create a Bucket
+
 Once you're authenticated, you can start using Storj. The first step is to make
 a bucket.
 
@@ -101,7 +102,13 @@ Buckets are usually referenced by ID, so make sure you keep track of that. Here
 are a few self-explanatory bucket operations: `deleteBucket`, `updateBucket`,
 `getBucket`, `makePublic`.
 
-### Code Review
+### What's next?
+
+See below for a review of the code so far, or head on to
+[Uploading and Downloading Files](03-upload-download.md)
+
+
+### Putting it all together
 
 ```javascript
 // In Node:

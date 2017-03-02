@@ -14,7 +14,7 @@ We recommend building on our Javascript library, Storj.js. It works in Node and
 in the browser.
 
 To install via npm:
-```
+```sh
 npm install --save storj
 ```
 
@@ -24,13 +24,11 @@ Use `storj.es5.js` for older browsers, or `storj.es6.js` for modern browsers.
 
 The browser libraries can also be built from source by cloning our github repo.
 
-```
+```sh
 git clone git@github.com:Storj/storj.js.git storj.js
 cd storj.js
 npm build
 ```
 
-### 3. Create a Bucket
-
-Files in Storj are kept in buckets. Buckets help you organize files by project,
-by type, or by user. Each bucket can have separate permissions.
+Now that the setup is out of the way, let's dive in to the
+[`Storj` object](02-storj-object.md)

@@ -82,7 +82,11 @@ file.on('error', function (error) {
 
 
 
-### Code Review
+### Now what?
+
+
+
+### Putting it all together
 ```javascript
 // Instantiate a new Storj object with your private key
 var storj = new Storj({key: privkey})

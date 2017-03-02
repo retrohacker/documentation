@@ -19,4 +19,4 @@ Ready to jump in?
 2. [The Storj Object](02-storj-object.md)
 3. [Upload and Download](03-upload-download.md)
 4. [Working in a Browser](04-browser.md)
-5.
+5. [Advanced Bucketing](05-bucket-ops.md)
