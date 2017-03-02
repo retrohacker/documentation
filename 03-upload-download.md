@@ -78,13 +78,16 @@ file.on('error', function (error) {
 
 ### 3. Download a file
 
+
+
 ### 4. Do something with it!
 
 
 
 ### Now what?
 
-
+Keep scrolling down for a review of file operations, or jump straight into
+[Storj in a Browser](04-browser.md). Backend engineers can skip ahead to [Advanced Bucketing](05-bucket-ops.md).
 
 ### Putting it all together
 ```javascript
@@ -126,3 +129,7 @@ file.on('error', function (error) {
   console.log(error)
 })
 ```
+
+Next up: [Storj in a Browser](04-browser.md)
+If front-end isn't your thing, go forward two spaces to
+[Advanced Bucketing](05-bucket-ops.md)

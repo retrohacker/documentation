@@ -156,3 +156,5 @@ storj.createBucket("My New Bucket", function (error, meta){
   console.log("name:", meta.name)
 })
 ```
+
+Let's push on to [Uploading and Downloading](03-upload-download.md)?
