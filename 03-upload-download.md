@@ -59,9 +59,15 @@ without worrying about collisions or ambiguity.
 ### 3. Get comfortable with the Storj `File`
 
 Both `storj.createFile()` and `storj.getFile()` return a Storj `File` object.
-This object has a few nice properties to help us learn about it, and methods
-to help us work with it. Let's log a few file properties, to get a feel for
-what we're doing.
+When we upload or download a file, there's a lot going on behind the scenes.
+Before leaving the client machine, uploaded files are encrypted and split into
+pieces. When downloading a file, the pieces are retrieved from several sources,
+reassembled, and decrypted. Fortunately, the `File` object handles all of that
+for you.
+
+Storj `File` objects have a few nice properties to help us learn about it, and
+methods to help us work with it. Let's log a few file properties, to get a feel
+for what we're doing.
 
 ```javascript
 console.log("name:", file.name)
@@ -95,16 +101,42 @@ Storj `File` objects are versatile. Rather than forcing you into a specific
 code style, they expose the underlying data in several different formats,
 including `stream.Readable`s, `Buffer`s, `Blob`s, and even direct DOM injection.
 
-Let's look at some ways of accessing our `download`:
+We're going to gloss over DOM operations and focus on node for a second.
+But don't worry, we'll cover it in depth in the next chapter. Let's look at
+some ways of accessing our downloaded data, first with `Buffer`s:
 
 ```javascript
-
-var downStream = download.createReadStream()
-
-
-
+download.getBuffer(function (error, buffer) {
+  if (error) {
+    console.log(error)
+  }
+  else {
+    doTheThingWithThe(buffer)
+  }
+})
 ```
 
+`getBuffer()` calls back when the file is completely downloaded. But what if we
+want access to data as it comes in?
+
+```javascript
+var downStream = download.createReadStream()
+
+downStream.on('data', function (data) {
+  console.log('bytes downloaded:', file.length)
+  doTheThingWithThe(data)
+})
+
+downStream.on("end", function() {
+  console.log('Stream over.')
+})
+
+var catFile = fs.createWriteStream('./cat.jpg')
+downStream.pipe(catFile)
+```
+
+The stream makes data available as soon as it's retrieved, and can be piped
+into any writable stream.
 
 ### Now what?
 
@@ -156,6 +188,30 @@ download.on('error', function (error) {
   console.log('The file has encountered some sort of error.')
   console.log(error)
 })
+
+// Set up a Buffer callback
+download.getBuffer(function (error, buffer) {
+  if (error) {
+    console.log(error)
+  }
+  else {
+    doTheThingWithThe(buffer)
+  }
+})
+
+// And/or a readable stream for piping fun
+var downStream = download.createReadStream()
+
+downStream.on('data', function (data) {
+  console.log('bytes downloaded:', file.length)
+  doTheThingWithThe(data)
+})
+
+downStream.on("end", function() {
+  console.log('Stream over.')
+})
+
+downStream.pipe(someWritableStream)
 ```
 
 Next up: [Storj in a Browser](04-browser.md)
