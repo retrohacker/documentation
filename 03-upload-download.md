@@ -35,21 +35,33 @@ var data = document.getElementById('input').files[0]
 ```
 
 Once we have the file, we can upload it to our bucket. We pass in the bucket
-ID, a name for the file, the data, and a callback:
+ID, a name for the file, and the data:
 
 ```javascript
 // Both:
-var file = storj.createFile(bucketID, 'cat.jpg', data, function () {
-  console.log('Upload complete')
-})
+var file = storj.createFile(bucketID, 'cat.jpg', data)
 ```
 
-### 2. Get comfortable with the Storj File
+### 2. Download a file
 
-Like several other methods, `storj.createFile()` returns a Storj `File` object.
-This object has a few nice properties and methods to help us learn about it
-and work with it. Let's log a few file properties, to get a feel for what we're
-doing.
+Now that we have the file uploaded, let's pull it back. Downloading is even
+easier than uploading:
+
+```javascript
+fileID = file.id
+var download = storj.getFile(bucketID, fileID)
+```
+
+When a file is uploaded, it's assigned an id. Files are referenced by Bucket ID
+and File ID. That way we can have many files or buckets with the same name,
+without worrying about collisions or ambiguity.
+
+### 3. Get comfortable with the Storj `File`
+
+Both `storj.createFile()` and `storj.getFile()` return a Storj `File` object.
+This object has a few nice properties to help us learn about it, and methods
+to help us work with it. Let's log a few file properties, to get a feel for
+what we're doing.
 
 ```javascript
 console.log("name:", file.name)
@@ -63,32 +75,42 @@ The Storj `File` object also allows us to set event listeners, just in case we
 care about what our `File` is up to.
 
 ```javascript
-file.on('ready', function () {
+download.on('ready', function () {
   console.log('The file object is now ready to upload/download data.')
 })
 
-file.on('done', function () {
+download.on('done', function () {
   console.log('Upload/download is complete!')
 })
 
-file.on('error', function (error) {
+download.on('error', function (error) {
   console.log('The file has encountered some sort of error.')
   console.log(error)
 })
 ```
 
-### 3. Download a file
-
-
-
 ### 4. Do something with it!
 
+Storj `File` objects are versatile. Rather than forcing you into a specific
+code style, they expose the underlying data in several different formats,
+including `stream.Readable`s, `Buffer`s, `Blob`s, and even direct DOM injection.
+
+Let's look at some ways of accessing our `download`:
+
+```javascript
+
+var downStream = download.createReadStream()
+
+
+
+```
 
 
 ### Now what?
 
 Keep scrolling down for a review of file operations, or jump straight into
-[Storj in a Browser](04-browser.md). Backend engineers can skip ahead to [Advanced Bucketing](05-bucket-ops.md).
+[Storj in a Browser](04-browser.md). Backend engineers can skip ahead to
+[Advanced Bucketing](05-bucket-ops.md).
 
 ### Putting it all together
 ```javascript
@@ -107,30 +129,35 @@ var data = document.getElementById('input').files[0]
 </script>
 
 // Both:
+// Upload the file
 var file = storj.createFile(bucketID, 'cat.jpg', data, function () {
   console.log('Upload complete')
 })
 
+// Download the file
+fileID = file.id
+var download = storj.getFile(bucketID, fileID)
+
 // Log the file information
-console.log("name:", file.name)
-console.log("type:", file.mimetype)
-console.log("size in bytes:", file.length)
-console.log("upload/download progress:", file.progress)
-console.log("uploaded/downloaded bytes:", file.progress * file.bytes)
+console.log("name:", download.name)
+console.log("type:", download.mimetype)
+console.log("size in bytes:", download.length)
+console.log("upload/download progress:", download.progress)
+console.log("uploaded/downloaded bytes:", download.progress * download.bytes)
 
 // Register file event listeners
-file.on('ready', function () {
+download.on('ready', function () {
   console.log('The file object is now ready to upload/download data.')
 })
-file.on('done', function () {
+download.on('done', function () {
   console.log('Upload/download is complete!')
 })
-file.on('error', function (error) {
+download.on('error', function (error) {
   console.log('The file has encountered some sort of error.')
   console.log(error)
 })
 ```
 
 Next up: [Storj in a Browser](04-browser.md)
-If front-end isn't your thing, go forward two spaces to
+Or, if front-end isn't your thing, move forward two spaces to
 [Advanced Bucketing](05-bucket-ops.md)
