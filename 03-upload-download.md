@@ -131,6 +131,7 @@ downStream.on("end", function() {
   console.log('Stream over.')
 })
 
+// Node:
 var catFile = fs.createWriteStream('./cat.jpg')
 downStream.pipe(catFile)
 ```
@@ -211,7 +212,9 @@ downStream.on("end", function() {
   console.log('Stream over.')
 })
 
-downStream.pipe(someWritableStream)
+// Node:
+var catFile = fs.createWriteStream('./cat.jpg')
+downStream.pipe(catFile)
 ```
 
 Next up: [Storj in a Browser](04-browser.md)
