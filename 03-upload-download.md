@@ -59,7 +59,8 @@ console.log("upload/download progress:", file.progress)
 console.log("uploaded/downloaded bytes:", file.progress * file.bytes)
 ```
 
-The `File` object also allows us to set event listeners.
+The Storj `File` object also allows us to set event listeners, just in case we
+care about what our `File` is up to.
 
 ```javascript
 file.on('ready', function () {

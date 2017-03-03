@@ -20,3 +20,4 @@ Ready to jump in?
 3. [Uploading and Downloading](03-upload-download.md)
 4. [Storj in a Browser](04-browser.md)
 5. [Advanced Bucketing](05-bucket-ops.md)
+6. [Fun with Files](06-file-ops.md)
