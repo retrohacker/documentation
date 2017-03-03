@@ -220,8 +220,9 @@ catVid.appendTo('#vidGoesHere', function cb(e) {
 })
 ```
 
-Now that we know what we can do with our files, it's time to circle back and
-take a deeper look at [Bucket Operations](05-bucket-ops.md).
+Now that we know what our files can do, it's time to circle back and take a
+deeper look at [Bucket Operations](05-bucket-ops.md).
 
 Or, take a quick break to read about the super-cool `render-media` package
-[here](https://www.npmjs.com/package/render-media)
+[here](https://www.npmjs.com/package/render-media). Feross-senpai notice me
+please.
