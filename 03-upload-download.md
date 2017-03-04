@@ -110,9 +110,7 @@ download.getBuffer(function (error, buffer) {
   if (error) {
     console.log(error)
   }
-  else {
-    doTheThingWithThe(buffer)
-  }
+  doTheThingWithThe(buffer)
 })
 ```
 
@@ -195,9 +193,7 @@ download.getBuffer(function (error, buffer) {
   if (error) {
     console.log(error)
   }
-  else {
-    doTheThingWithThe(buffer)
-  }
+  doTheThingWithThe(buffer)
 })
 
 // And/or a readable stream for piping fun

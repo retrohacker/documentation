@@ -18,9 +18,7 @@ download.getBlob(function (error, blob) {
   if (error) {
     console.log(error)
   }
-  else {
-    doTheThingWithThe(blob)
-  }
+  doTheThingWithThe(blob)
 })
 ```
 
@@ -53,7 +51,7 @@ download.getBlobURL(function (error, url) {
 })
 ```
 
-Adding an img to the page via a Blob URL is not exactly elegant. Fortunately,
+Adding an `<img>` to the page via a Blob URL is not exactly elegant. Fortunately,
 the `File` object has better ways to get file data into the DOM.
 
 ### 2. Rendering and appending (aka Appendering)
@@ -61,8 +59,8 @@ the `File` object has better ways to get file data into the DOM.
 Rather than building an element from a Blob URL, we thought it'd be really nice
 if something just did that for you. So that's what `file.appendTo()` and
 `file.renderTo()` do. They take a container (either a CSS selector or an object
-reference), and intelligently add the file to it based on the file's
-`mimetype` property.
+reference), and intelligently add the file to it based on the file's media
+type.
 
 Take this stupidly simple page:
 
@@ -83,7 +81,7 @@ var catPic = storj.getFile(bucketID, catPicFileID)
 catPic.renderTo('#imageGoesHere')
 ```
 
-The `File` object figures out the appropriate elements based on mimetype,
+The `File` object figures out the appropriate elements based on file type,
 builds them, and adds them to the page. Video and audio get streaming players.
 Images are displayed. PDFs get an iframe, etc.
 
@@ -112,9 +110,7 @@ catVid.appendTo('#vidGoesHere', defaultOpts, function (error, elem) {
   if (error) {
     console.log(error)
   }
-  else {
-    console.log('Video player created.')
-  }
+  console.log('Video player created.')
 })
 ```
 
@@ -149,9 +145,7 @@ download.getBlob(function (error, blob) {
   if (error) {
     console.log(error)
   }
-  else {
-    doTheThingWithThe(blob)
-  }
+  doTheThingWithThe(blob)
 })
 
 // Access file data via a Blob URL
@@ -203,9 +197,7 @@ catVid.appendTo('#vidGoesHere', defaultOpts, function (error, elem) {
   if (error) {
     console.log(error)
   }
-  else {
-    console.log('Video player created.')
-  }
+  console.log('Video player created.')
 })
 
 // Appender callbacks can (and often should!) modify the DOM.
