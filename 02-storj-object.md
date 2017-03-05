@@ -35,6 +35,7 @@ var opts = {
     user: "user@email.com",
     password: "this is not a secure password"
   }
+  passphrase: passphrase // we'll come back to this later
 }
 
 var storj = new Storj(opts)
@@ -42,8 +43,10 @@ var storj = new Storj(opts)
 
 Key-based auth generates an ECDSA keypair, and registers it to your account.
 Because key-based auth is more secure, we recommend using it whenever possible.
-First we need to generate a keypair:
+For more information on ECDSA keypairs in Storj, see [Chapter 6:
+Keys and Keys](06-keys.md).
 
+First we need to generate a keypair:
 
 ```javascript
 var keypair = storj.generateKeyPair()
@@ -65,7 +68,8 @@ of a username and password.
 
 ```javascript
 var opts = {
-  key: privkey
+  key: privkey,
+  passphrase: passphrase // we'll come back to this later
 }
 
 var storj = new Storj(opts)
@@ -124,8 +128,9 @@ var storj = new Storj()
 var opts = {
   basicAuth: {
     user: "user@email.com",
-    password: "this is not a secure password"
+    password: "this is not a secure password",
   }
+  passphrase: passphrase // we'll come back to this later
 }
 
 var storj = new Storj(opts)
@@ -142,7 +147,8 @@ storj.registerKey(pubkey, function (error) {
 
 // Authenticate with the keypair
 var opts = {
-  key: privkey
+  key: privkey,
+  passphrase: passphrase // we'll come back to this later
 }
 
 var storj = new Storj(opts)

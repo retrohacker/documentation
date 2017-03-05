@@ -78,3 +78,9 @@ storj.getFileList(bucketID, function (e, fileMetadata) {
   })
 })
 ```
+
+### 4. Making a Public Bucket (TODO)
+
+### Next Up:
+
+We're going to dive into the types of [keys](06-keys.md) in Storj.
