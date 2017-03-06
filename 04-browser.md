@@ -9,8 +9,8 @@ as an aggressive hunk of jelly. Unfortunately, I'm not in charge of modern
 browser standards, so we'll stick with their definition. For now.
 
 Within a browser we can access file data as a W3C `Blob` using
-`file.getBlob()`, or via a Blob URL using `file.getBlobURL()`. Anyone familiar
-with [WebTorrent](https://github.com/feross/webtorrent) might think this sounds
+`file.getBlob()`, or via a Blob URL using `file.getBlobURL()`. Anyone who has
+used [WebTorrent](https://github.com/feross/webtorrent) might think this sounds
 awfully familiar. That is not an accident.
 
 ```javascript
