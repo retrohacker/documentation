@@ -1,6 +1,5 @@
-Now I'm going to walk you through making a MVP image gallery with Storj.js.
-Our MVP image gallery is going to display all images in a bucket (and ignore
-other files).
+Now let's walk through making a MVP image gallery with Storj.js. Our MVP image
+gallery is going to display all images in a bucket (and ignore other files).
 
 1. An HTML page
 
