@@ -35,7 +35,7 @@ var opts = {
     user: "user@email.com",
     password: "this is not a secure password"
   }
-  passphrase: passphrase // we'll come back to this later
+  mnemonic: mnemonic // we'll come back to this later
 }
 
 var storj = new Storj(opts)
@@ -69,7 +69,7 @@ of a username and password.
 ```javascript
 var opts = {
   key: privkey,
-  passphrase: passphrase // we'll come back to this later
+  mnemonic: mnemonic // we'll come back to this later
 }
 
 var storj = new Storj(opts)
@@ -130,7 +130,7 @@ var opts = {
     user: "user@email.com",
     password: "this is not a secure password",
   }
-  passphrase: passphrase // we'll come back to this later
+  mnemonic: mnemonic // we'll come back to this later
 }
 
 var storj = new Storj(opts)
@@ -148,7 +148,7 @@ storj.registerKey(pubkey, function (error) {
 // Authenticate with the keypair
 var opts = {
   key: privkey,
-  passphrase: passphrase // we'll come back to this later
+  mnemonic: mnemonic // we'll come back to this later
 }
 
 var storj = new Storj(opts)

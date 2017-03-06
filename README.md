@@ -21,3 +21,4 @@ Ready to jump in?
 4. [Storj in a Browser](04-browser.md)
 5. [Advanced Bucketing](05-bucket-ops.md)
 6. [Keys and Keys](06-keys.md)
+7. [Image Gallery](07-gallery.md)

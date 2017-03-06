@@ -55,14 +55,14 @@ and generation are all handled by the `Storj` object.
 
 Each file uses a different key. This means that to use a file after you
 download it, you need its key. For convenience and portability file keys are
-generated deterministically. This is done using a strong passphrase. The
-passphrase is combined with the file ID to make the file key. This means that
-instead of having to move all file keys to new devices, we can just move the
-passphrase.
+generated deterministically. This is done using a strong mnemonic passphrase.
+The passphrase is combined with the file ID to make the file key. This means
+that instead of having to move all file keys to new devices, we can just move
+the mnemonic.
 
 #### Passphrases
 
-Passprases can be generated via `storj.generatePassphrase()`. We recommend
+Passprases can be generated via `storj.generateMnemonic()`. We recommend
 doing this only once. **Make sure to keep the passphrase in a safe place!**
 Anyone with the passphrase can make your file keys, and if you lose the
 passphrase, you may lose access to your files! The passphrase is a 12-word long
@@ -75,11 +75,11 @@ buckets, as they can't generate file keys.
 ```javascript
 // Make sure to save this passphrase!
 // Use the same passphrase every time!
-var passphrase = storj.generatePassphrase()
+var mnemonic = storj.generateMnemonic()
 
 var opts = {
   key: privkey,
-  passphrase: passphrase
+  mnemonic: mnemonic
 }
 
 var storj = new Storj(opts)
@@ -87,7 +87,8 @@ var storj = new Storj(opts)
 
 For server-side apps, passphrases should be stored locally, and injected via an
 environment variable. For browser apps, require the user to input the
-passphrase, and keep it in memory.
+mnemonic passphrase, and keep it in memory. Don't send the mnemonic over the
+wire. :)
 
 #### Public buckets
 
