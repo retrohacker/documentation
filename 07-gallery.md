@@ -112,4 +112,59 @@ Now the images will load for anyone visiting the page.
 
 ### Next up
 See below for the entire image gallery app. We're going to keep updating our
-image gallery to [add uploads in the browser](08-gallery-2.md). 
+image gallery to [add uploads in the browser](08-gallery-2.md).
+
+### Putting it all together
+
+```javascript
+// Node:
+// This is the bucket setup code, and the file upload code.
+// Run this once, on a machine you trust.
+// And don't forget to give it your key and mnemonic!
+var Storj = require('storj')
+var storj = new Storj({key:privkey, mnemonic:mnemonic})
+var opts = {pull:true, push:false}
+
+storj.createBucket('Image Gallery Tutorial', function (e, bucket) {
+  if (e) {console.log(e)}
+
+  storj.makePublic(meta.id, opts, function (e) {
+    if (e) {console.log(e)}
+  })
+})
+
+var fs = require('fs')
+var catFolder = '~/cats/'
+fs.readdir(catFolder, function (e, files) {
+  files.forEach( function (file) {
+    fs.readFile(file, function (e, data) {
+      if (e) {console.log(e)}
+      storj.createFile(bucketID, file, data)
+    })
+  })
+})
+```
+
+```html
+<!-- This is the browser page that displays the photos. -->
+<body>
+  <script source="./storj.es6.js"></script>
+  <script type="text/javascript">
+    var storj = new Storj()
+    var fileList = storj.getFileList(bucketID)
+
+    fileList.forEach(function (fileData) {
+      if (fileData.mimetype.indexOf('image') !== -1) {
+        var file = storj.getFile(bucketID, fileData.id)
+        file.on("done", function () {
+          file.appendTo('#imagesGoHere')
+        })
+      }
+    })    
+  </script>
+  <div id="imagesGoHere"></div>
+</body>
+```
+
+Now let's make some upgrades to our gallery:
+[Gallery 2: Electric Boogaloo](08-gallery-2.md).

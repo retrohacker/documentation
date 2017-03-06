@@ -79,7 +79,33 @@ storj.getFileList(bucketID, function (e, fileMetadata) {
 })
 ```
 
-### 4. Making a Public Bucket (TODO)
+### 4. Making a Public Bucket
+
+Sometimes it'd be nice to have publicly accessible buckets. Maybe you're making
+a portfolio or an image gallery. Maybe you want to send some files to your
+friends in a hurry. Maybe you just feel like paying for file storage for
+strangers out of the goodness of your heart.
+
+Whatever motivates you, public buckets are a powerful tool. Clients don't have
+to authenticate to interact with public buckets. Buckets can be public push,
+public pull, or both. Setting up a public bucket is easy:
+
+```javascript
+var opts = {
+  pull: true, // Allow anyone to download, defaults to false
+  push: true  // Allow anyone to upload, defaults to false
+}
+
+storj.makePublic(bucketID, opts, function (error) {
+  if (error) {
+    console.log(error)
+  }
+})
+```
+
+Keep in mind that bucket limits are not currently implemented. So if you set a
+bucket to public, keep an eye on usage. Better management features are coming
+soon.
 
 ### Next Up:
 

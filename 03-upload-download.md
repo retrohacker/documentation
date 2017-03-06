@@ -26,7 +26,7 @@ var data = fs.readFileSync('/path/to/file/cat.jpg',)
 In a browser we can get files from a file input:
 
 ```html
-// Browsers:
+<!-- Broswers: -->
 <input type="file" id="input">
 
 <script>

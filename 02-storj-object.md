@@ -10,7 +10,7 @@ var Storj = require('storj')
 ```
 
 ```html
-// Browsers:
+<!-- Browsers: -->
 <script src="storj.es6.js"></script>
 ```
 
