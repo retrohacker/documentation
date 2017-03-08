@@ -142,24 +142,26 @@ var pubkey = keypair.getPublicKey()
 
 // Register the public key to your account
 storj.registerKey(pubkey, function (error) {
-  console.log(error)
-})
-
-// Authenticate with the keypair
-var opts = {
-  key: privkey,
-  mnemonic: mnemonic // we'll come back to this later
-}
-
-var storj = new Storj(opts)
-
-// Create a bucket
-storj.createBucket("My New Bucket", function (error, meta){
-  if (error) {
+  if(error) {
     console.log(error)
   }
-  console.log("id:", meta.id)
-  console.log("name:", meta.name)
+  
+  // Authenticate with the keypair
+  var opts = {
+    key: privkey,
+    mnemonic: mnemonic // we'll come back to this later
+  }
+
+  storj = new Storj(opts)
+
+  // Create a bucket
+  storj.createBucket("My New Bucket", function (error, meta){
+    if (error) {
+      console.log(error)
+    }
+    console.log("id:", meta.id)
+    console.log("name:", meta.name)
+  })
 })
 ```
 
