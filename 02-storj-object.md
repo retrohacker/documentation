@@ -32,7 +32,7 @@ contains the basic auth information:
 ```javascript
 var opts = {
   basicAuth: {
-    user: "user@email.com",
+    email: "user@email.com",
     password: "this is not a secure password"
   }
   mnemonic: mnemonic // we'll come back to this later
