@@ -151,7 +151,7 @@ var opts = {
   mnemonic: mnemonic // we'll come back to this later
 }
 
-var storj = new Storj(opts)
+storj = new Storj(opts)
 
 // Create a bucket
 storj.createBucket("My New Bucket", function (error, meta){
