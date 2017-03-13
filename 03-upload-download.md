@@ -6,7 +6,7 @@ private key. We should also set up a variable for the bucket ID, just for
 convenience.
 
 ```javascript
-var storj = new Storj({key: privkey, mnemonic: mnemonic})
+var storj = new Storj({key: privateKey, mnemonic: mnemonic})
 bucketID = 'your_bucket_id'
 ```
 
@@ -146,7 +146,7 @@ Keep scrolling down for a review of file operations, or jump straight into
 ### Putting it all together
 ```javascript
 // Instantiate a new Storj object with your private key
-var storj = new Storj({key: privkey, mnemonic: mnemonic})
+var storj = new Storj({key: privateKey, mnemonic: mnemonic})
 
 // Node:
 var fs = require('fs')

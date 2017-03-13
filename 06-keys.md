@@ -17,7 +17,7 @@ for a more in-depth explanation of making and registering keys.
 ```javascript
 var keypair = storj.generateKeyPair()
 
-var privkey = keypair.getPrivateKey()
+var privateKey = keypair.getPrivateKey()
 var pubkey = keypair.getPublicKey()
 
 storj.registerKey(pubkey, function (error) {
@@ -78,7 +78,7 @@ buckets, as they can't generate file keys.
 var mnemonic = storj.generateMnemonic()
 
 var opts = {
-  key: privkey,
+  key: privateKey,
   mnemonic: mnemonic
 }
 

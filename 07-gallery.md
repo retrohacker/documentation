@@ -25,9 +25,9 @@ clients to pull from it.
 ```javascript
 // Node:
 // Run this once, on a machine you trust!
-// And don't forget to give it your key and mnemonic!
+// And don't forget to give it your auth key and mnemonic!
 var Storj = require('storj')
-var storj = new Storj({key:privkey, mnemonic:mnemonic})
+var storj = new Storj({key:privateKey, mnemonic:mnemonic})
 var opts = {pull:true, push:false}
 
 storj.createBucket('Image Gallery Tutorial', function (e, bucket) {
@@ -121,7 +121,7 @@ image gallery to [add uploads in the browser](08-gallery-2.md).
 // Run this once, on a machine you trust.
 // And don't forget to give it your key and mnemonic!
 var Storj = require('storj')
-var storj = new Storj({key:privkey, mnemonic:mnemonic})
+var storj = new Storj({key:privateKey, mnemonic:mnemonic})
 var opts = {pull:true, push:false}
 
 storj.createBucket('Image Gallery Tutorial', function (e, bucket) {
