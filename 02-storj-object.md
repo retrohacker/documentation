@@ -24,7 +24,7 @@ However, most of them require authentication. So let's work on that next.
 
 ### 1. Authentication Station
 
-Storj allows two kinds of authentication: basic auth with a username and
+Storj allows two kinds of authentication: basic auth with your storj username and
 password (the default), or key-based authentication. For now, let's set up a
 `Storj` object with basic auth. We do this by passing in an `opts` object that
 contains the basic auth information:
@@ -32,7 +32,7 @@ contains the basic auth information:
 ```javascript
 var opts = {
   basicAuth: {
-    user: "user@email.com",
+    email: "user@email.com",
     password: "this is not a secure password"
   }
 }
@@ -49,16 +49,19 @@ First we need to generate a keypair:
 
 ```javascript
 var keypair = storj.generateKeyPair()
-var privkey = keypair.getPrivateKey()
-var pubkey = keypair.getPublicKey()
+var privateKey = keypair.getPrivateKey()
+var publicKey = keypair.getPublicKey()
 ```
 
 Once the keypair has been made, we register the public key with Storj using the
 `registerKey` function.
 
 ```javascript
-storj.registerKey(pubkey, function (error) {
-  console.log(error)
+storj.registerKey(publicKey, function (error) {
+  if(error) {
+    return console.log(error)
+  }
+  ...
 })
 ```
 
@@ -67,10 +70,10 @@ of a username and password.
 
 ```javascript
 var opts = {
-  key: privkey
+  key: privateKey
 }
 
-var storj = new Storj(opts)
+storj = new Storj(opts)
 ```
 
 Now you're using keypair auth. Make sure to store the private key somewhere
@@ -89,7 +92,7 @@ a bucket.
 ```javascript
 storj.createBucket("My New Bucket", function (error, meta){
   if (error) {
-    console.log(error)
+    return console.log(error)
   }
   console.log("id:", meta.id)
   console.log("name:", meta.name)
@@ -125,7 +128,7 @@ var storj = new Storj()
 // Authenticate with basicAuth
 var opts = {
   basicAuth: {
-    user: "user@email.com",
+    email: "user@email.com",
     password: "this is not a secure password"
   }
 }
@@ -134,25 +137,26 @@ var storj = new Storj(opts)
 
 // Create a new keypair
 var keypair = storj.generateKeyPair()
-var privkey = keypair.getPrivateKey()
-var pubkey = keypair.getPublicKey()
+var privateKey = keypair.getPrivateKey()
+var publicKey = keypair.getPublicKey()
 
 // Register the public key to your account
-storj.registerKey(pubkey, function (error) {
-  console.log(error)
-})
+storj.registerKey(publicKey, function (error) {
+  if(error) {
+    return console.log(error)
+  }
 
 // Authenticate with the keypair
 var opts = {
-  key: privkey
+  key: privateKey
 }
 
-var storj = new Storj(opts)
+storj = new Storj(opts)
 
 // Create a bucket
 storj.createBucket("My New Bucket", function (error, meta){
   if (error) {
-    console.log(error)
+    return console.log(error)
   }
   console.log("id:", meta.id)
   console.log("name:", meta.name)
