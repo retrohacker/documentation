@@ -146,22 +146,20 @@ storj.registerKey(publicKey, function (error) {
     return console.log(error)
   }
 
-  // Authenticate with the keypair
-  var opts = {
-    key: privateKey
+// Authenticate with the keypair
+var opts = {
+  key: privateKey
+}
+
+storj = new Storj(opts)
+
+// Create a bucket
+storj.createBucket("My New Bucket", function (error, meta){
+  if (error) {
+    return console.log(error)
   }
-
-
-  storj = new Storj(opts)
-
-  // Create a bucket
-  storj.createBucket("My New Bucket", function (error, meta){
-    if (error) {
-      return console.log(error)
-    }
-    console.log("id:", meta.id)
-    console.log("name:", meta.name)
-  })
+  console.log("id:", meta.id)
+  console.log("name:", meta.name)
 })
 ```
 
