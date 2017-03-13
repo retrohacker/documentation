@@ -3,8 +3,8 @@ gallery is going to display all images in a bucket (and ignore other files).
 
 1. An HTML page
 
-We'll start with the most basic possible html page, add Storj.js, and then a
-div to put our images in:
+We'll start with the most basic possible html page: `<body></body>`. Then we'll
+add Storj.js, and a div to put our images in:
 
 ```html
 <body>
