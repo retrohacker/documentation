@@ -151,6 +151,7 @@ storj.registerKey(publicKey, function (error) {
     key: privateKey
   }
 
+
   storj = new Storj(opts)
 
   // Create a bucket
