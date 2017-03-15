@@ -7,16 +7,15 @@ Setting up a `Storj` object is easy:
 ```javascript
 // Node:
 var Storj = require('storj')
+var storj = new Storj()
 ```
 
 ```html
 <!-- Browsers: -->
 <script src="storj.es6.js"></script>
-```
-
-```javascript
-// Both
-var storj = new Storj()
+<script>
+  var storj = new Storj()
+</script>
 ```
 
 Once you have the `Storj` object, you can use it to do all sorts of things.
@@ -116,12 +115,6 @@ See below for a review of the code so far, or head on to
 ### Putting it all together
 
 ```javascript
-// In Node:
-var Storj = require('storj')
-
-// In browsers:
-<script src="storj.es6.js"></script>
-
 // Create an unauthenticated Storj object
 var storj = new Storj()
 
@@ -133,7 +126,7 @@ var opts = {
   }
 }
 
-var storj = new Storj(opts)
+storj = new Storj(opts)
 
 // Create a new keypair
 var keypair = storj.generateKeyPair()
@@ -146,20 +139,21 @@ storj.registerKey(publicKey, function (error) {
     return console.log(error)
   }
 
-// Authenticate with the keypair
-var opts = {
-  key: privateKey
-}
-
-storj = new Storj(opts)
-
-// Create a bucket
-storj.createBucket("My New Bucket", function (error, meta){
-  if (error) {
-    return console.log(error)
+  // Authenticate with the keypair
+  var opts = {
+    key: privateKey
   }
-  console.log("id:", meta.id)
-  console.log("name:", meta.name)
+
+  storj = new Storj(opts)
+
+  // Create a bucket
+  storj.createBucket("My New Bucket", function (error, meta){
+    if (error) {
+      return console.log(error)
+    }
+    console.log("id:", meta.id)
+    console.log("name:", meta.name)
+  })
 })
 ```
 
