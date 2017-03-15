@@ -10,10 +10,12 @@ This part is really simple:
 
 ### 2. Get the tools
 
-We recommend building on our Javascript library, Storj.js. It works in Node and
-in the browser.
+We recommend building your application using our Javascript library, Storj.js.
+It works in Node and in the browser.
 
-To install via npm:
+To install via npm (for Node.js or [browserify](http://browserify.org/) et.al.
+development):
+
 ```sh
 npm install --save storj
 ```
