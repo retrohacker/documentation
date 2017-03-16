@@ -2,15 +2,33 @@ Now that we have a bucket ready to go, let's get some files in it. Storj makes
 file uploading and downloading files easy.
 
 Let's start by instantiating a `Storj` object, and authenticating with our
-private key. We should also set up a variable for the bucket ID, just for
+private key. We should also set up a variable for the bucket id, just for
 convenience.
 
 ```javascript
-var storj = new Storj({key: privateKey, mnemonic: mnemonic})
-bucketID = 'your_bucket_id'
+var encryptionKey = Storj.generateEncryptionKey()
+var storj = new Storj({key: privateKey, encryptionKey: encryptionKey})
+bucketId = 'your_bucket_id'
 ```
 
-### 1. Upload a file
+### 1. Introducing the encryption key
+
+In the last document, we introduced you to the private/public keypair. This is
+used for authenticating to the Storj.js bridge instead of using your username
+and password. That keypair can be used for creating and managing buckets, and
+other aspects of a user account.
+
+In order to work with files however, you will need a key to encrypt/decrypt the
+file itself. This is where the encryption key comes in. As you can see in the
+example above, you can generate a new encryption key by calling
+`Storj.generateEncryptionKey()`. This key is in the format of a friendly
+mnemonic, 12-24 words long!
+
+```
+console.log(Storj.generateEncryptionKey())
+```
+
+### 2. Upload a file
 The `Storj` object can upload files in three formats: `stream.Readable`,
 `Blob` and `String`. Because a javascript `File` object is a type of `Blob` we
 can use those too.
@@ -27,36 +45,47 @@ In a browser we can get files from a file input:
 
 ```html
 <!-- Broswers: -->
-<input type="file" id="input">
+<input type="file" id="input" onchange="upload()">
 
 <script>
-var data = document.getElementById('input').files[0]
+function upload() {
+  var data = document.getElementById('input').files[0]
+}
 </script>
 ```
 
 Once we have the file, we can upload it to our bucket. We pass in the bucket
-ID, a name for the file, and the data:
+id, a name for the file, and the data:
 
 ```javascript
 // Both:
-var file = storj.createFile(bucketID, 'cat.jpg', data)
+var file = storj.createFile(bucketId, 'cat.jpg', data)
+file.on('error', console.log)
+file.on('done', function() {
+    console.log('Created file with id: ' + file.id)
+})
+
 ```
 
-### 2. Download a file
+### 3. Download a file
 
 Now that we have the file uploaded, let's pull it back. Downloading is even
 easier than uploading:
 
 ```javascript
-fileID = file.id
-var download = storj.getFile(bucketID, fileID)
+fileId = file.id
+var download = storj.getFile(bucketId, fileId)
+download.on('error', console.log)
+download.on('done', function() {
+  /* download is ready to use */
+})
 ```
 
-When a file is uploaded, it's assigned an id. Files are referenced by Bucket ID
-and File ID. That way we can have many files or buckets with the same name,
+When a file is uploaded, it's assigned an id. Files are referenced by bucket id
+and file id. That way we can have many files or buckets with the same name,
 without worrying about collisions or ambiguity.
 
-### 3. Get comfortable with the Storj `File`
+### 4. Get comfortable with the Storj `File`
 
 Both `storj.createFile()` and `storj.getFile()` return a Storj `File` object.
 When we upload or download a file, there's a lot going on behind the scenes.
@@ -74,7 +103,7 @@ console.log("name:", file.name)
 console.log("type:", file.mimetype)
 console.log("size in bytes:", file.length)
 console.log("upload/download progress:", file.progress)
-console.log("uploaded/downloaded bytes:", file.progress * file.bytes)
+console.log("uploaded/downloaded bytes:", file.progress * file.length)
 ```
 
 The Storj `File` object also allows us to set event listeners, just in case we
@@ -95,7 +124,7 @@ download.on('error', function (error) {
 })
 ```
 
-### 4. Do something with it!
+### 5. Do something with it!
 
 Storj `File` objects are versatile. Rather than forcing you into a specific
 code style, they expose the underlying data in several different formats,
@@ -144,51 +173,83 @@ Keep scrolling down for a review of file operations, or jump straight into
 [Advanced Bucketing](05-bucket-ops.md).
 
 ### Putting it all together
+
+Node.js:
+
 ```javascript
+var Storj = require('storj')
+var fs = require('fs')
+
 // Instantiate a new Storj object with your private key
 var storj = new Storj({key: privateKey, mnemonic: mnemonic})
-
-// Node:
-var fs = require('fs')
 var data = fs.readFileSync('/path/to/file/cat.jpg',)
 
-// Browsers:
-<input type="file" id="input">
-
-<script>
-var data = document.getElementById('input').files[0]
-</script>
-
-// Both:
-// Upload the file
-var file = storj.createFile(bucketID, 'cat.jpg', data, function () {
+var file = storj.createFile(bucketId, 'cat.jpg', data)
+file.on('error', console.log)
+file.on('done', fucntion () {
   console.log('Upload complete')
+  var fileId = file.id
+  var download = storj.getFile(bucketId, fileId)
+  download.on('error', console.log)
+  download.on('ready', function () {
+    console.log('The file object is now ready to upload/download data.')
+  })
+  download.on('done', function () {
+    // Log the file information
+    console.log("name:", download.name)
+    console.log("type:", download.mimetype)
+    console.log("size in bytes:", download.length)
+    console.log("upload/download progress:", download.progress)
+    console.log("uploaded/downloaded bytes:", download.progress * download.length)
+    var downStream = download.createReadStream()
+    var catFile = fs.createWriteStream('./cat2.jpg')
+    downStream.pipe(catFile)
+  })
 })
+```
 
-// Download the file
-fileID = file.id
-var download = storj.getFile(bucketID, fileID)
+Browser:
 
-// Log the file information
-console.log("name:", download.name)
-console.log("type:", download.mimetype)
-console.log("size in bytes:", download.length)
-console.log("upload/download progress:", download.progress)
-console.log("uploaded/downloaded bytes:", download.progress * download.bytes)
+```html
+<html>
+<body>
+  <input type="file" id="input" onchange="upload()">
+  <script>
+  var encryptionKey = Storj.generateEncryptionKey()
+  var storj = new Storj({ key, encryptionKey })
+  function upload() {
+    var data = document.getElementById('input').files[0]
+    var file = storj.createFile(bucketId, 'cat.jpg', data)
+    file.on('error', console.log)
+    file.on('done', function () {
+      console.log('Upload complete')
+      var fileId = file.id
+      var download = storj.getFile(bucketId, fileId)
+      download.on('error', console.log)
+      download.on('ready', function () {
+        console.log('The file object is now ready to upload/download data.')
+      })
+      download.on('done', function () {
+        // Log the file information
+        console.log("name:", download.name)
+        console.log("type:", download.mimetype)
+        console.log("size in bytes:", download.length)
+        console.log("upload/download progress:", download.progress)
+        console.log("uploaded/downloaded bytes:",
+            download.progress * download.length)
+      })
+    })
+  }
+  </script>
+</body>
+</html>
+```
 
-// Register file event listeners
-download.on('ready', function () {
-  console.log('The file object is now ready to upload/download data.')
-})
-download.on('done', function () {
-  console.log('Upload/download is complete!')
-})
-download.on('error', function (error) {
-  console.log('The file has encountered some sort of error.')
-  console.log(error)
-})
+In either, once you have the `download` `file` object, you can use these
+methods to play with the downloaded data!
 
-// Set up a Buffer callback
+```javascript
+// Get the file contents as a buffer
 download.getBuffer(function (error, buffer) {
   if (error) {
     console.log(error)
@@ -207,10 +268,6 @@ downStream.on('data', function (data) {
 downStream.on("end", function() {
   console.log('Stream over.')
 })
-
-// Node:
-var catFile = fs.createWriteStream('./cat.jpg')
-downStream.pipe(catFile)
 ```
 
 Next up: [Storj in a Browser](04-browser.md)
