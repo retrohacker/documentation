@@ -8,8 +8,8 @@ add Storj.js, and a div to put our images in:
 
 ```html
 <body>
-  <script source="./storj.es6.js"></script>
   <div id="imagesGoHere"></div>
+  <script source="./storj.es6.js"></script>
 </body>
 ```
 
@@ -25,16 +25,16 @@ clients to pull from it.
 ```javascript
 // Node:
 // Run this once, on a machine you trust!
-// And don't forget to give it your auth key and mnemonic!
+// And don't forget to give it your auth key and encryption key!
 var Storj = require('storj')
-var storj = new Storj({key:privateKey, mnemonic:mnemonic})
+var storj = new Storj({ key , encryptionKey })
 var opts = {pull:true, push:false}
 
 storj.createBucket('Image Gallery Tutorial', function (e, bucket) {
-  if (e) {console.log(e)}
+  if (e) { return console.log(e) }
 
   storj.makePublic(meta.id, opts, function (e) {
-    if (e) {console.log(e)}
+    if (e) { return console.log(e) }
   })
 })
 ```
@@ -50,7 +50,7 @@ var catFolder = '~/cats/'
 fs.readdir(catFolder, function (e, files) {
   files.forEach( function (file) {
     fs.readFile(file, function (e, data) {
-      if (e) {console.log(e)}
+      if (e) { return console.log(e) }
       storj.createFile(bucketID, file, data)
     })
   })
@@ -89,6 +89,7 @@ We're gonna stick this in our html page from earlier:
 
 ```html
 <body>
+  <div id="imagesGoHere"></div>
   <script source="./storj.es6.js"></script>
   <script type="text/javascript">
     var storj = new Storj()
@@ -101,9 +102,8 @@ We're gonna stick this in our html page from earlier:
           file.appendTo('#imagesGoHere')
         })
       }
-    })    
+    })
   </script>
-  <div id="imagesGoHere"></div>
 </body>
 ```
 
@@ -119,34 +119,36 @@ image gallery to [add uploads in the browser](08-gallery-2.md).
 // Node:
 // This is the bucket setup code, and the file upload code.
 // Run this once, on a machine you trust.
-// And don't forget to give it your key and mnemonic!
+// And don't forget to give it your key and encryption key!
 var Storj = require('storj')
-var storj = new Storj({key:privateKey, mnemonic:mnemonic})
-var opts = {pull:true, push:false}
+var fs = require('fs')
+var catFolder = './cats'
+
+var storj = new Storj({ key, encryptionKey })
+var perms = [ "pull", "push" ]
 
 storj.createBucket('Image Gallery Tutorial', function (e, bucket) {
-  if (e) {console.log(e)}
+  if (e) { return console.log(e) }
 
   storj.makePublic(meta.id, opts, function (e) {
-    if (e) {console.log(e)}
-  })
-})
-
-var fs = require('fs')
-var catFolder = '~/cats/'
-fs.readdir(catFolder, function (e, files) {
-  files.forEach( function (file) {
-    fs.readFile(file, function (e, data) {
-      if (e) {console.log(e)}
-      storj.createFile(bucketID, file, data)
+    if (e) { return console.log(e) }
+    fs.readdir(catFolder, function (e, files) {
+      files.forEach( function (file) {
+        fs.readFile(file, function (e, data) {
+          if (e) { return console.log(e) }
+          storj.createFile(bucketID, file, data)
+        })
+      })
     })
   })
 })
+
 ```
 
 ```html
 <!-- This is the browser page that displays the photos. -->
 <body>
+  <div id="imagesGoHere"></div>
   <script source="./storj.es6.js"></script>
   <script type="text/javascript">
     var storj = new Storj()
@@ -159,9 +161,8 @@ fs.readdir(catFolder, function (e, files) {
           file.appendTo('#imagesGoHere')
         })
       }
-    })    
+    })
   </script>
-  <div id="imagesGoHere"></div>
 </body>
 ```
 
