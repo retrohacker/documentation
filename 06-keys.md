@@ -50,19 +50,21 @@ key-by-key basis.
 
 File keys are used to encrypt files before uploading, and to decrypt files
 after downloading. This protects the contents of the file from the people
-storing it, from anyone listening in, and from Storj. Encryption, decryption,
-and generation are all handled by the `Storj` object.
+storing it, from anyone listening in, and from Storj itself (we can't even
+access your files unless you give us your key!). Encryption, decryption, and
+generation are all handled by the `Storj` object.
 
 Each file uses a different key. This means that to use a file after you
 download it, you need its key. For convenience and portability file keys are
-generated deterministically. This is done using a strong mnemonic passphrase.
-The passphrase is combined with the file ID to make the file key. This means
-that instead of having to move all file keys to new devices, we can just move
-the mnemonic.
+generated deterministically. This is done using a strong encryption key, which
+is really just a 12-24 word plain-text mnemonic passphrase. The passphrase is
+combined with the file ID to make the file key. This means that instead of
+having to move all file keys to new devices, we can just move the encryption
+key.
 
 #### Passphrases
 
-Passprases can be generated via `storj.generateMnemonic()`. We recommend
+Passprases can be generated via `storj.generateEncryptionKey()`. We recommend
 doing this only once. **Make sure to keep the passphrase in a safe place!**
 Anyone with the passphrase can make your file keys, and if you lose the
 passphrase, you may lose access to your files! The passphrase is a 12-word long
@@ -75,11 +77,11 @@ buckets, as they can't generate file keys.
 ```javascript
 // Make sure to save this passphrase!
 // Use the same passphrase every time!
-var mnemonic = storj.generateMnemonic()
+var encryptionKey = storj.generateEncryptionKey()
 
 var opts = {
   key: privateKey,
-  mnemonic: mnemonic
+  encryptionKey: encryptionKey
 }
 
 var storj = new Storj(opts)
@@ -87,8 +89,8 @@ var storj = new Storj(opts)
 
 For server-side apps, passphrases should be stored locally, and injected via an
 environment variable. For browser apps, require the user to input the
-mnemonic passphrase, and keep it in memory. Don't send the mnemonic over the
-wire. :)
+encryption key, and keep it in memory. Don't send the encryption key over the
+wire, you will compromise your user's security. :)
 
 #### Public buckets
 
