@@ -10,7 +10,7 @@ all the buckets we've made so far, and log the bucket info to console:
 ```javascript
 storj.getBucketList(function (error, metadata) {
   if (error) {
-    console.log(error)
+    return console.log(error)
   }
   metadata.forEach(function (item) {
     console.log('----BEGIN BUCKET----')
@@ -19,7 +19,7 @@ storj.getBucketList(function (error, metadata) {
     console.log('Bucket storage in GB', item.storage)
     console.log('Bucket transfer in GB', item.transfer)
     console.log('Bucket created date', item.created)
-    pubkeys.forEach(function (key) {
+    item.pubkeys.forEach(function (key) {
       console.log('A key:', key)
     })
     console.log('-----END BUCKET-----')
@@ -28,16 +28,16 @@ storj.getBucketList(function (error, metadata) {
 ```
 
 The bucket object contains info about the bucket, like `id` and `name`, as well
-as information about bucket usage like how much many gigabytes are in the
-bucket (`storage`) and how many gigabytes of bandwidth have been used this
-month (`bandwidth`).
+as information about bucket usage like how many gigabytes are in the bucket
+(`storage`) and how many gigabytes of bandwidth have been used this month
+(`bandwidth`).
 
 We can also get metadata for a single bucket:
 
 ```javascript
 storj.getBucket(bucketID, function (error, metadata) {
   if (error) {
-    console.log(error)
+    return console.log(error)
   }
   console.log('Bucket name', metadata.name)
   // Etc.
@@ -52,7 +52,7 @@ exactly what it says it does.
 ```javascript
 storj.deleteBucket(function (error) {
   if (error) {
-    console.log(error)
+    return console.log(error)
   }
 })
 ```
@@ -67,7 +67,10 @@ in it. File metadata is represented as simple objects until you make a `File`
 object to download it.
 
 ```javascript
-storj.getFileList(bucketID, function (e, fileMetadata) {
+storj.getFileList(bucketID, function (error, fileMetadata) {
+  if(error) {
+    return console.log(error)
+  }
   fileMetadata.forEach(function (item) {
     console.log('----BEGIN FILE----')
     console.log('filename:', item.filename)
@@ -91,14 +94,14 @@ to authenticate to interact with public buckets. Buckets can be public push,
 public pull, or both. Setting up a public bucket is easy:
 
 ```javascript
-var opts = {
-  pull: true, // Allow anyone to download, defaults to false
-  push: true  // Allow anyone to upload, defaults to false
-}
+var perms = [
+  'PULL', // Allow anyone to download, defaults to false
+  'PUSH'  // Allow anyone to upload, defaults to false
+]
 
-storj.makePublic(bucketID, opts, function (error) {
+storj.makePublic(bucketID, perms, function (error) {
   if (error) {
-    console.log(error)
+    return console.log(error)
   }
 })
 ```
