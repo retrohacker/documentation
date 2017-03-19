@@ -9,7 +9,7 @@ as an aggressive hunk of jelly. Unfortunately, I'm not in charge of modern
 browser standards, so we'll stick with their definition. For now.
 
 Within a browser we can access file data as a W3C `Blob` using
-`file.getBlob()`, or via a Blob URL using `file.getBlobURL()`. Anyone who has
+`file.getBlob()`, or via a Blob url using `file.getBlobUrl()`. Anyone who has
 used [WebTorrent](https://github.com/feross/webtorrent) might think this sounds
 awfully familiar. That is not an accident.
 
@@ -22,19 +22,19 @@ download.getBlob(function (error, blob) {
 })
 ```
 
-We can also get a Blob URL:
+We can also get a Blob url:
 
 ```javascript
-download.getBlobURL(function (err, url) {
+download.getBlobUrl(function (err, url) {
   console.log(url)
 })
 ```
 
-Blob URLs are particularly useful for making download links, or adding files to
+Blob urls are particularly useful for making download links, or adding files to
 the page:
 
 ```javascript
-download.getBlobURL(function (error, url) {
+download.getBlobUrl(function (error, url) {
   if (error) throw error
   var a = document.createElement('a')
   a.download = file.name
@@ -43,7 +43,7 @@ download.getBlobURL(function (error, url) {
   document.body.appendChild(a)
 })
 
-download.getBlobURL(function (error, url) {
+download.getBlobUrl(function (error, url) {
   if (error) throw error
   var img = document.createElement('img')
   img.src = url
@@ -51,12 +51,12 @@ download.getBlobURL(function (error, url) {
 })
 ```
 
-Adding an `<img>` to the page via a Blob URL is not exactly elegant. Fortunately,
+Adding an `<img>` to the page via a Blob url is not exactly elegant. Fortunately,
 the `File` object has better ways to get file data into the DOM.
 
 ### 2. Rendering and appending (aka Appendering)
 
-Rather than building an element from a Blob URL, we thought it'd be really nice
+Rather than building an element from a Blob url, we thought it'd be really nice
 if something just did that for you. So that's what `file.appendTo()` and
 `file.renderTo()` do. They take a container (either a CSS selector or an object
 reference), and intelligently add the file to it based on the file's media
@@ -75,10 +75,14 @@ We can just drop files into it no problem:
 
 ```javascript
 var catVid = storj.getFile(bucketID, catVidFileID)
-catVid.appendTo('#vidGoesHere')
+catVid.on('ready', function() {
+  catVid.appendTo('#vidGoesHere')
+})
 
 var catPic = storj.getFile(bucketID, catPicFileID)
-catPic.renderTo('#imageGoesHere')
+catPic.on('ready', function() {
+  catPic.renderTo('#imageGoesHere')
+})
 ```
 
 The `File` object figures out the appropriate elements based on file type,
@@ -148,13 +152,13 @@ download.getBlob(function (error, blob) {
   doTheThingWithThe(blob)
 })
 
-// Access file data via a Blob URL
-download.getBlobURL(function (err, url) {
+// Access file data via a Blob url
+download.getBlobUrl(function (err, url) {
   console.log(url)
 })
 
-// Build DOM elements from Blob URLs
-download.getBlobURL(function (error, url) {
+// Build DOM elements from Blob urls
+download.getBlobUrl(function (error, url) {
   if (error) throw error
   var a = document.createElement('a')
   a.download = file.name
@@ -163,7 +167,7 @@ download.getBlobURL(function (error, url) {
   document.body.appendChild(a)
 })
 
-download.getBlobURL(function (error, url) {
+download.getBlobUrl(function (error, url) {
   if (error) throw error
   var img = document.createElement('img')
   img.src = url
@@ -178,11 +182,15 @@ download.getBlobURL(function (error, url) {
 
 // Intelligently append file to a DOM node
 var catVid = storj.getFile(bucketID, catVidFileID)
-catVid.appendTo('#vidGoesHere')
+catVid.on('ready', function() {
+  catVid.appendTo('#vidGoesHere')
+})
 
 // Replace the contents of a DOM node with the file
 var catPic = storj.getFile(bucketID, catPicFileID)
-catPic.renderTo('#imageGoesHere')
+catPic.on('ready', function() {
+  catPic.renderTo('#imageGoesHere')
+})
 
 
 // Options for appendering
@@ -193,11 +201,13 @@ var defaultOpts = {
 }
 
 // Appender with options and a callback
-catVid.appendTo('#vidGoesHere', defaultOpts, function (error, elem) {
-  if (error) {
-    console.log(error)
-  }
-  console.log('Video player created.')
+catVid.on('ready', function() {
+  catVid.appendTo('#vidGoesHere', defaultOpts, function (error, elem) {
+    if (error) {
+      console.log(error)
+    }
+    console.log('Video player created.')
+  })
 })
 
 // Appender callbacks can (and often should!) modify the DOM.
